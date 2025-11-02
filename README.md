@@ -73,3 +73,28 @@ Calling the summary() function in R on this model provides insights into the mod
 On inspection of the coefficients table, it was clear that many of the coefficients were very close to zero. This suggests that they may be having a neglible effect on the model (with the caveat of some collinearity) and so I thought to see how a step regression approach would work for this model.
 
 ### Step regression model
+
+To create the step regression, I began with an intercept online model, and then used a forward regression to add in variables. 
+
+```R
+# create intercept only model
+mpg_intercept_only <- lm(mpg ~ 1, data = train_df)
+
+# perform forward step-wise regression
+forward_mpg <- step(mpg_intercept_only,
+                direction = "forward",
+                scope = formula(mpg_model),
+                trace = 0)
+```
+
+To visualise this, we can look at how the AIC (Akaike Information Criterion) decreases with different variables being introduced. This measures the models improved but penalises complexity so is ideal for step regression analysis.
+
+```R
+> forward_mpg$anova
+   Step Df  Deviance Resid. Df Resid. Dev      AIC
+1       NA        NA        24  710.43040 85.67488
+2 + cyl -1 548.46720        23  161.96320 50.71233
+3  + wt -1  36.86974        22  125.09346 46.25463
+4  + hp -1  10.42416        21  114.66930 46.07941
+5  + am -1  16.65914        20   98.01016 44.15488
+```
