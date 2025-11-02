@@ -1,8 +1,8 @@
-# Exploring different linear regression models using the mtcars dataset
+# Exploring and comparing different linear regression models using the mtcars dataset
 
 ## Introduction
 
-The [mtcars dataset](https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/mtcars) in R contains information about 32 cars with such things as their horsepower (hp), weight (wt) and miles per gallon (mpg) amongst others. My aim was to create a linear regression model to predict the mpg for a given car, and to compare how different models would compare in accuracy.
+The [mtcars dataset](https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/mtcars) in R contains information about 32 cars with such things as their horsepower (hp), weight (wt) and miles per gallon (mpg) amongst others. My aim was to create a linear regression model to predict the mpg for a given car, and to compare these different models.
 
 ## The models
 
@@ -87,7 +87,7 @@ forward_mpg <- step(mpg_intercept_only,
                 trace = 0)
 ```
 
-To visualise this, we can look at how the AIC (Akaike Information Criterion) decreases with different variables being introduced. This measures the models improved but penalises complexity so is ideal for step regression analysis.
+To visualise this, we can look at how the AIC (Akaike Information Criterion) decreases with different variables being introduced. This measures the models improvement but penalises complexity so is ideal for step regression analysis.
 
 ```R
 > forward_mpg$anova
@@ -392,4 +392,11 @@ Multiple R-squared:  0.6942,	Adjusted R-squared:  0.6809
 F-statistic: 52.21 on 1 and 23 DF,  p-value: 2.351e-07
 ```
 
-The forward step model produces the greatest adjusted R-squared value
+We see that the forward step model produces the greatest adjusted R-squared value of the models but all of the models have a reasonable R-squared value.
+
+## Conclusion
+
+Through building and analysing these models, the personal learnings I take away from this is that a more complex model is not necessarily a better one. As we have seen, a model can be created using just one factor to predict some outcome with reasonable accuracy, and this model is far more understandable and reproducible from a non-technical viewpoint. This is something I intend to keep in the back of my mind when creating new models going forwards.
+
+*********************
+Thank you for reading.
