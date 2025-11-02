@@ -98,3 +98,40 @@ To visualise this, we can look at how the AIC (Akaike Information Criterion) dec
 4  + hp -1  10.42416        21  114.66930 46.07941
 5  + am -1  16.65914        20   98.01016 44.15488
 ```
+We see that the impact of introducing the cylinder variable is highly signifcant followed by the weight variable. This is the reason I decided to add cylinder only and weight only regression models to my comparison.
+
+### Cylinder only and weight only models
+
+```R
+# model just using wt (weight) variable
+wt_mpg <- lm(mpg ~ wt, data = train_df)
+summary(wt_mpg)
+
+# model just using cyl (cylinder) variable
+cyl_mpg <- lm(mpg ~ cyl, data = train_df)
+summary(cyl_mpg)
+
+```
+
+## Model comparison
+
+### Data wrangling
+
+Here I created a new comparison dataframe, and used my test data to add a prediction column and a residue column for each model. The residue is simply calculated as the true value subtract the prediction.
+```R
+# create df to compare the models, turn row names into a col
+compare_df <- test_df |>
+  mutate(
+    forward_predict = predict(forward_mpg, newdata = test_df),
+    forward_resid = mpg - forward_predict,
+    all_predict = predict(mpg_model, newdata = test_df),
+    all_resid = mpg - all_predict,
+    wt_predict = predict(wt_mpg, newdata = test_df),
+    wt_resid = mpg - wt_predict,
+    cyl_predict = predict(cyl_mpg, newdata = test_df),
+    cyl_resid = mpg - cyl_predict
+  ) |> 
+  rownames_to_column("car")
+```
+
+
